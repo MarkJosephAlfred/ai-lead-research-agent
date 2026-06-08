@@ -1,51 +1,84 @@
- AI Lead Research Agent
+# AI Lead Research Agent (n8n) 🤖
 
-An agentic n8n workflow that automatically researches companies and generates full B2B lead reports using AI.
+An agentic n8n workflow that takes a company name, autonomously researches it on the web, generates a full B2B lead report using AI, and logs everything to Google Sheets — automatically.
 
-What It Does:
+## How It Works
 
-You type a company name into a form. The AI agent:
-1. Searches the web for real-time information about the company
-2. Decides if it needs more information and searches again if needed
-3. Writes a company overview, lead score (1-10), and a personalized cold outreach email
-4. Logs everything automatically to Google Sheets
+You type a company name into a form and hit Submit. The AI agent takes over:
 
-Flow:
+![Form Input](submit-1.png)
+![Form Submitted](submit-2.png)
+
+The workflow runs automatically:
+
+![n8n Workflow Canvas](n8n_Workflow.png)
+
+The AI Agent searches the web, analyzes the company, scores the lead, and writes a personalized cold outreach email. Everything gets logged to Google Sheets:
+
+![Google Sheets Output](Output_sheet.png)
+![Append Row Node Output](Append_Row_in_Sheet.png)
+
+## Agent Flow
 
 ```
-Form Input → Web Research (Serper) → AI Agent (Gemini) → Google Sheets
+Form Input (company name)
+       ↓
+Web Research (Serper API — real Google search)
+       ↓
+AI Agent (Google Gemini)
+  - Decides if more research is needed
+  - Calls search tool autonomously if yes
+  - Writes company overview
+  - Scores lead 1-10 with reasoning
+  - Writes personalized cold outreach email
+       ↓
+Google Sheets (auto-logs every result)
 ```
 
-The AI Agent has access to a search tool it can call autonomously — it's not just a linear pipeline. It thinks, decides, and acts.
+The AI Agent is not just a linear pipeline — it has access to a search tool it can call on its own. It thinks and decides what to do next.
 
-Stack:
+## Stack
 
-- n8n — workflow automation
-- Google Gemini — AI model (free)
-- Serper API — real-time Google search (free tier)
-- Google Sheets — output logging
+- **n8n** — workflow automation
+- **Google Gemini** — AI model (free)
+- **Serper API** — real-time Google search (free tier)
+- **Google Sheets** — automatic output logging
 
-Setup:
+## Setup
 
-1. Import `AI_Lead_Research_Agent.json` into your n8n instance
-2. Add your credentials:
-   - [Serper API key](https://serper.dev) → replace `YOUR_SERPER_API_KEY`
-   - [Google Gemini API key](https://aistudio.google.com) → add as Google Gemini credential in n8n
-   - Google Sheets OAuth2 → connect your Google account in n8n
-3. Create a Google Sheet with columns: `Company`, `Overview`, `Lead Score`, `Email`
-4. Update the Sheet ID in the workflow
-5. Activate the workflow and open the form URL
+**1. Import the workflow**
 
-Example Output
+Download `AI_Lead_Research_Agent.json` and import it into your n8n instance via Settings → Import Workflow.
 
-Input: `Anthropic`
+**2. Add your credentials**
 
-Output:
-- Company overview of Anthropic's mission and products
-- Lead score: 9/10 with reasoning
+- [Serper API key](https://serper.dev) → add to the HTTP Request node header `X-API-KEY`
+- [Google Gemini API key](https://aistudio.google.com) → add as Google Gemini credential in n8n
+- Google Sheets OAuth2 → connect your Google account in n8n
+
+**3. Create a Google Sheet**
+
+Create a new sheet with these column headers in row 1:
+`Company` | `Overview` | `Lead Score` | `Email`
+
+Update the Sheet ID in the Google Sheets node.
+
+**4. Activate the workflow**
+
+Toggle the workflow to Active and open the Production URL. Or use the Test URL to test first.
+
+**5. Submit a company name and watch it run**
+
+## Example Output
+
+**Input:** `Peak Nine`
+
+**Output:**
+- Company overview: impact-driven innovation studio helping NGOs, startups, and corporations
+- Lead score: 8/10 with detailed reasoning
 - Personalized cold outreach email ready to send
 - Row automatically added to Google Sheets
 
- Why This Is Useful
+## Why This Is Useful
 
-Sales teams waste hours manually researching leads. This agent does it in seconds, at scale, for any company in the world.
+Sales teams waste hours manually researching leads. This agent does it in under 60 seconds, for any company in the world, and logs everything automatically. No manual work required.
