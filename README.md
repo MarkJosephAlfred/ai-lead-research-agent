@@ -11,12 +11,12 @@ You type a company name into a form and hit Submit. The AI agent takes over:
 
 The workflow runs automatically:
 
-![n8n Workflow Canvas](n8n_Workflow.png)
+![n8n Workflow Canvas](n8n%20Workflow.png)
 
 The AI Agent searches the web, analyzes the company, scores the lead, and writes a personalized cold outreach email. Everything gets logged to Google Sheets:
 
-![Google Sheets Output](Output_sheet.png)
-![Append Row Node Output](Append_Row_in_Sheet.png)
+![Google Sheets Output](Output%20sheet.png)
+![Append Row Node Output](Append%20Row%20in%20Sheet.png)
 
 ## Agent Flow
 
